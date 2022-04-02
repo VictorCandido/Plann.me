@@ -1,10 +1,10 @@
-import MenuWithHeader from "../Components/MenuWithHeader";
+import HeaderComponent from "../Components/HeaderComponent"
 
 const FluxoCaixa: React.FC = () => {
     return (
-        <MenuWithHeader>
+        <HeaderComponent>
             <h1>Fluxo de Caixa</h1>
-        </MenuWithHeader>
+        </HeaderComponent>
     );
 }
 

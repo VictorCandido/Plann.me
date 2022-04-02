@@ -1,0 +1,13 @@
+.addButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.addButtonIcon {
+    margin-right: 5px;
+}
+.payButton {
+    display: flex;
+    border-radius: 20%;
+}

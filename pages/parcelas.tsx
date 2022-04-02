@@ -1,53 +1,74 @@
-import { Box, Card, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import MenuWithHeader from "../Components/MenuWithHeader";
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
+import { FaPlus, FaRegMoneyBillAlt } from  'react-icons/fa';
 
-const rows = [
-    { description: 'Descrição 1', lastUpdate: '20/03/2022', totalBalance: 13000 },
-    { description: 'Descrição 1', lastUpdate: '20/03/2022', totalBalance: 13000 },
-    { description: 'Descrição 1', lastUpdate: '20/03/2022', totalBalance: 13000 },
-    { description: 'Descrição 1', lastUpdate: '20/03/2022', totalBalance: 13000 },
-    { description: 'Descrição 1', lastUpdate: '20/03/2022', totalBalance: 13000 },
-  ]
+import HeaderComponent from "../Components/HeaderComponent";
+import styles from '../styles/Parcelas.module.css';
+import ParcelasService from '../Services/ParcelasService';
 
 const Parcelas: React.FC = () => {
-    return (
-        <MenuWithHeader>
-            <Card style={{ padding:'10px' }}>
-                <Typography variant="h4" noWrap>
-                    Parcelas
-                </Typography>
+    const parcelasService = new ParcelasService();
+    const data = parcelasService.getData();
 
-                <TableContainer component={ Paper }>
-                    <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Descrição</TableCell>
-                                <TableCell>Pagos/Total</TableCell>
-                                <TableCell>Valor/Parcela</TableCell>
-                                <TableCell>Descrição</TableCell>
-                                <TableCell>Descrição</TableCell>
-                                <TableCell align="right">Última Atualização</TableCell>
-                                <TableCell align="right">Saldo Total</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row, index) => (
-                                <TableRow
-                                key={ index }
-                                >
-                                <TableCell component="th" scope="row">
-                                    { row.description }
-                                </TableCell>
-                                <TableCell align="right">{ row.lastUpdate }</TableCell>
-                                <TableCell align="right">{ row.totalBalance }</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+    return (
+        <HeaderComponent>
+            <Card>
+                <Card.Body>
+                    <Row>
+                        <Col md={3}>
+                            <Button variant="primary" className={ styles.addButton }> 
+                                <FaPlus className={ styles.addButtonIcon } />
+                                Novo Fluxo de Caixa
+                            </Button>
+                        </Col>
+                        <Col md={{ span: 4, offset: 5 }}>
+                            <Form.Control type="text" placeholder="Digite para pesquisar..." />
+                        </Col>
+                    </Row>
+                </Card.Body>
             </Card>
-        </MenuWithHeader>
+
+            <Table striped hover responsive>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Descrição</th>
+                        <th>Parcelas Pagas</th>
+                        <th>Total Parcelas</th>
+                        <th>Valor por Parcela</th>
+                        <th>Último Pagamento</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((row, index) => (
+                        <tr key={ index }>
+                            <td>{ row.id }</td>
+                            <td>{ row.descricao }</td>
+                            <td>{ row.parcelasPagas }</td>
+                            <td>{ row.parcelasTotal }</td>
+                            <td>{ row.parcelaValor }</td>
+                            <td>{ dealWithShowData(row.ultimoPagamento) }</td>
+                            <td>
+                                <Button variant='info' className={ styles.payButton }>
+                                    <FaRegMoneyBillAlt />
+                                </Button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+                </Table>
+
+        </HeaderComponent>
     );
+}
+
+function dealWithShowData(data: Date): string {
+    return data.toLocaleDateString();
 }
 
 export default Parcelas;
