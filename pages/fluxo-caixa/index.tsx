@@ -1,4 +1,4 @@
-import HeaderComponent from "../Components/HeaderComponent"
+import HeaderComponent from "../../Components/HeaderComponent"
 
 const FluxoCaixa: React.FC = () => {
     return (
